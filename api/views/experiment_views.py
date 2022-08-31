@@ -32,3 +32,11 @@ class Experiments(generics.ListCreateAPIView):
         return Response(experiment.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class ExpDetails (generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = (IsAuthenticated,)
+    def get(self, request, pk):
+        """Show request: get data then return serialized data"""
+        exp = get_object_or_404(Experiment, pk=pk)
+        data = ExperimentSerializer(exp).data
+
+        return Response({'experiment':data})
