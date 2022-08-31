@@ -1,13 +1,19 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
+#model imports
 from .models.mango import Mango
-from .models.user import User
+from .models.experiment import Experiment
 
 class MangoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Mango
         #https://www.django-rest-framework.org/api-guide/serializers/#modelserializer
+        fields = '__all__'
+
+class ExperimentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Experiment
         fields = '__all__'
 
 class UserSerializer(serializers.ModelSerializer):
