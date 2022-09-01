@@ -34,9 +34,23 @@ class Experiments(generics.ListCreateAPIView):
 
 class ExpDetails (generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAuthenticated,)
+    
     def get(self, request, pk):
+        print('this is req',request)
         """Show request: get data then return serialized data"""
         exp = get_object_or_404(Experiment, pk=pk)
         data = ExperimentSerializer(exp).data
-
+        if request.user != exp.owner:
+            raise PermissionDenied("Unauthorized, you do not own this experiment") 
         return Response({'experiment':data})
+    
+    def delete(self,request, pk):
+        print('this is req',request)
+        """Delete Request: deletes requester's exp data from db then return 204"""
+        exp = get_object_or_404(Experiment, pk=pk)
+
+        if request.user != exp.owner:
+            raise PermissionDenied("Unauthorized, you do not own this experiment") 
+        exp.delete()
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
