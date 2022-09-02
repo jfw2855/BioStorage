@@ -10,6 +10,12 @@ from ..serializers import StorageTypeSerializer
 class StorageTypes(generics.ListCreateAPIView):
     permission_classes=(IsAuthenticated,)
     serializer_class = StorageTypeSerializer
+    
+    def get(self, request):
+        """Index request: indexes all storage types"""
+        types = StorageType.objects
+        data = StorageTypeSerializer(types, many=True).data
+        return Response({ 'storage_types': data })
 
     def post(self, request):
         """Create request: creates new storage type then saves to db"""
