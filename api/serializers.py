@@ -5,6 +5,7 @@ from rest_framework import serializers
 from .models.mango import Mango
 from .models.experiment import Experiment
 from .models.storage import Storage
+from .models.storage_type import StorageType
 
 class MangoSerializer(serializers.ModelSerializer):
     class Meta:
@@ -20,6 +21,11 @@ class ExperimentSerializer(serializers.ModelSerializer):
 class StorageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Storage
+        fields = '__all__'
+
+class StorageTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StorageType
         fields = '__all__'
 
 class UserSerializer(serializers.ModelSerializer):
