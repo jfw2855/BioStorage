@@ -1,3 +1,4 @@
+from urllib import response
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import PermissionDenied
@@ -33,3 +34,9 @@ class StorageTypeDetails(generics.RetrieveUpdateDestroyAPIView):
         type = get_object_or_404(StorageType, pk=pk)
         data = StorageTypeSerializer(type).data
         return Response({ 'storage_type': data })
+
+    def delete(self,request,pk):
+        """Delete request: deletes storage type from db then returns 204"""
+        type = get_object_or_404(StorageType,pk=pk)
+        type.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
