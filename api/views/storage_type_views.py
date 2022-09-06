@@ -40,3 +40,16 @@ class StorageTypeDetails(generics.RetrieveUpdateDestroyAPIView):
         type = get_object_or_404(StorageType,pk=pk)
         type.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+    def partial_update(self, request, pk):
+        """Update Request: updates storage type in db then returns 204"""
+        type = get_object_or_404(StorageType,pk=pk)
+
+        # Validate updates with serializer
+        data = StorageTypeSerializer(type, data=request.data['storage_type'], partial=True)
+        if data.is_valid():
+            # Save & send a 204 no content
+            data.save()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        # If the data is not valid, return a response with the errors
+        return Response(data.errors, status=status.HTTP_400_BAD_REQUEST)
