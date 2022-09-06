@@ -25,3 +25,11 @@ class StorageTypes(generics.ListCreateAPIView):
             return Response({ 'storage_type': type.data }, status=status.HTTP_201_CREATED)
         # If the data is not valid, return a response with the errors
         return Response(type.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class StorageTypeDetails(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes=(IsAuthenticated,)
+    def get(self, request, pk):
+        """Show request: gets storage type from db"""
+        type = get_object_or_404(StorageType, pk=pk)
+        data = StorageTypeSerializer(type).data
+        return Response({ 'storage_type': data })
