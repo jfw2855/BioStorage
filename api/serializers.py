@@ -18,15 +18,18 @@ class ExperimentSerializer(serializers.ModelSerializer):
         model = Experiment
         fields = '__all__'
 
-class StorageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Storage
-        fields = '__all__'
-
 class StorageTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = StorageType
         fields = '__all__'
+
+
+class StorageSerializer(serializers.ModelSerializer):
+    storage_type = StorageTypeSerializer()    #populates foreign key fields of storage_type
+    class Meta:
+        model = Storage
+        fields = '__all__'
+
 
 class UserSerializer(serializers.ModelSerializer):
     # This model serializer will be used for User creation
