@@ -5,7 +5,7 @@ from rest_framework import generics, status
 from django.shortcuts import get_object_or_404
 
 from ..models.storage import Storage
-from ..serializers import StorageSerializer
+from ..serializers import StorageSerializer, ReadStorageSerializer
 
 """Storages Class: CREATE storages and INDEX all storages"""
 class Storages(generics.ListCreateAPIView):
@@ -15,7 +15,7 @@ class Storages(generics.ListCreateAPIView):
         """Index request"""
         storages = Storage.objects
         # Run the data through the serializer
-        data = StorageSerializer(storages, many=True).data
+        data = ReadStorageSerializer(storages, many=True).data
         return Response({ 'storages': data })
 
     def post(self, request):
@@ -36,5 +36,24 @@ class StorageDetails(generics.RetrieveUpdateDestroyAPIView):
     def get(self, request, pk):
         """Show request: Gets specific storage from db and returns serialized data"""
         storage = get_object_or_404(Storage, pk=pk)
-        data = StorageSerializer(storage).data
+        data = ReadStorageSerializer(storage).data
         return Response({ 'storage': data })
+    
+    def delete(self,request,pk):
+        """Delete request: deletes storage from db then returns 204"""
+        storage = get_object_or_404(Storage,pk=pk)
+        storage.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    def partial_update(self, request, pk):
+        """Update Request: updates storage in db then returns 204"""
+        storage = get_object_or_404(Storage,pk=pk)
+
+        # Validate updates with serializer
+        data = StorageSerializer(storage, data=request.data['storage'], partial=True)
+        if data.is_valid():
+            # Save & send a 204 no content
+            data.save()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        # If the data is not valid, return a response with the errors
+        return Response(data.errors, status=status.HTTP_400_BAD_REQUEST)
