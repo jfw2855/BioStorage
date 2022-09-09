@@ -1,8 +1,9 @@
 from django.urls import path
+#imports view classes
 from .views.mango_views import Mangos, MangoDetail
 from .views.user_views import SignUp, SignIn, SignOut, ChangePassword
 from .views.experiment_views import Experiments, ExpDetails
-from .views.storage_views import Storages
+from .views.storage_views import Storages, StorageDetails
 from .views.storage_type_views import StorageTypes, StorageTypeDetails
 
 urlpatterns = [
@@ -16,6 +17,7 @@ urlpatterns = [
     path('experiments',Experiments.as_view(), name='experiments'),
     path('experiments/<int:pk>', ExpDetails.as_view(), name='exp_detail'),
     path('storages', Storages.as_view(), name='storages'),
+    path('storages/<int:pk>', StorageDetails.as_view(), name='storage_detail'),
     path('storage_types',StorageTypes.as_view(), name='storage_types'),
     path('storage_types/<int:pk>',StorageTypeDetails.as_view(), name='storage_type_details'),
 ]
