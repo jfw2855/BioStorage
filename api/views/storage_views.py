@@ -7,6 +7,7 @@ from django.shortcuts import get_object_or_404
 from ..models.storage import Storage
 from ..serializers import StorageSerializer
 
+"""Storages Class: CREATE storages and INDEX all storages"""
 class Storages(generics.ListCreateAPIView):
     permission_classes=(IsAuthenticated,)
     serializer_class = StorageSerializer
@@ -28,3 +29,12 @@ class Storages(generics.ListCreateAPIView):
             return Response({ 'storage': storage.data }, status=status.HTTP_201_CREATED)
         # If the data is not valid, return a response with the errors
         return Response(storage.errors, status=status.HTTP_400_BAD_REQUEST)
+
+"""Storage Details Class: GET, DELETE, UPDATE specific storages (by PK)"""
+class StorageDetails(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes=(IsAuthenticated,)
+    def get(self, request, pk):
+        """Show request: Gets specific storage from db and returns serialized data"""
+        storage = get_object_or_404(Storage, pk=pk)
+        data = StorageSerializer(storage).data
+        return Response({ 'storage': data })
