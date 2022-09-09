@@ -25,11 +25,15 @@ class StorageTypeSerializer(serializers.ModelSerializer):
 
 
 class StorageSerializer(serializers.ModelSerializer):
-    storage_type = StorageTypeSerializer()    #populates foreign key fields of storage_type
     class Meta:
         model = Storage
         fields = '__all__'
 
+class ReadStorageSerializer(serializers.ModelSerializer):
+    storage_type = StorageTypeSerializer()    #populates foreign key fields of storage_type
+    class Meta:
+        model = Storage
+        fields = '__all__'
 
 class UserSerializer(serializers.ModelSerializer):
     # This model serializer will be used for User creation
