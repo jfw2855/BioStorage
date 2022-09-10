@@ -5,6 +5,7 @@ from .views.user_views import SignUp, SignIn, SignOut, ChangePassword
 from .views.experiment_views import Experiments, ExpDetails
 from .views.storage_views import Storages, StorageDetails
 from .views.storage_type_views import StorageTypes, StorageTypeDetails
+from .views.manufacturer_views import Manufacturers
 
 urlpatterns = [
   	# Restful routing
@@ -20,4 +21,5 @@ urlpatterns = [
     path('storages/<int:pk>', StorageDetails.as_view(), name='storage_detail'),
     path('storage_types',StorageTypes.as_view(), name='storage_types'),
     path('storage_types/<int:pk>',StorageTypeDetails.as_view(), name='storage_type_details'),
+    path('manufacturers', Manufacturers.as_view(), name='manufacturers'),
 ]
