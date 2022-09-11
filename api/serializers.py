@@ -7,6 +7,7 @@ from .models.experiment import Experiment
 from .models.storage import Storage
 from .models.storage_type import StorageType
 from .models.manufacturer import Manufacturer
+from .models.category import Category
 
 class MangoSerializer(serializers.ModelSerializer):
     class Meta:
@@ -39,6 +40,11 @@ class ReadStorageSerializer(serializers.ModelSerializer):
 class ManufacturerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Manufacturer
+        fields = '__all__'
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
         fields = '__all__'
 
 class UserSerializer(serializers.ModelSerializer):
