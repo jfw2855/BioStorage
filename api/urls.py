@@ -6,10 +6,10 @@ from .views.experiment_views import Experiments, ExpDetails
 from .views.storage_views import Storages, StorageDetails
 from .views.storage_type_views import StorageTypes, StorageTypeDetails
 from .views.manufacturer_views import Manufacturers, ManufacturerDetails
-from .views.category_views import Categories
+from .views.category_views import Categories, CategoryDetails
 
 urlpatterns = [
-  	# Restful routing
+  	# RESTful routing
     path('mangos', Mangos.as_view(), name='mangos'),
     path('mangos/<int:pk>', MangoDetail.as_view(), name='mango_detail'),
     path('sign-up/', SignUp.as_view(), name='sign-up'),
@@ -25,4 +25,5 @@ urlpatterns = [
     path('manufacturers', Manufacturers.as_view(), name='manufacturers'),
     path('manufacturers/<int:pk>', ManufacturerDetails.as_view(), name='manufacturer_detail'),
     path('categories', Categories.as_view(), name='categories'),
+    path('categories/<int:pk>', CategoryDetails.as_view(), name='category_detail'),
 ]
