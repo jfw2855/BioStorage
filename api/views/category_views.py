@@ -27,3 +27,32 @@ class Categories(generics.ListCreateAPIView):
             return Response({ 'category': cat.data }, status=status.HTTP_201_CREATED)
         # If the data is not valid, return a response with the errors
         return Response(cat.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+"""Category Details Class: GET, DELETE, UPDATE specific category (by PK)"""
+class CategoryDetails(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes=(IsAuthenticated,)
+    def get(self, request, pk):
+        """Show request: Gets specific category from db and returns serialized data"""
+        cat = get_object_or_404(Category, pk=pk) #cat == category
+        data = CategorySerializer(cat).data
+        return Response({ 'category': data })
+    
+    def delete(self,request,pk):
+        """Delete request: deletes category from db then returns 204"""
+        cat = get_object_or_404(Category,pk=pk)
+        cat.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    def partial_update(self, request, pk):
+        """Update Request: updates category in db then returns 204"""
+        cat = get_object_or_404(Category,pk=pk)
+
+        # Validate updates with serializer
+        data = CategorySerializer(cat, data=request.data['category'], partial=True)
+        if data.is_valid():
+            # Save & send a 204 no content
+            data.save()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        # If the data is not valid, return a response with the errors
+        return Response(data.errors, status=status.HTTP_400_BAD_REQUEST)
