@@ -8,6 +8,7 @@ from .models.storage import Storage
 from .models.storage_type import StorageType
 from .models.manufacturer import Manufacturer
 from .models.category import Category
+from .models.container import Container
 
 class MangoSerializer(serializers.ModelSerializer):
     class Meta:
@@ -45,6 +46,17 @@ class ManufacturerSerializer(serializers.ModelSerializer):
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
+        fields = '__all__'
+
+class ContainerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Container
+        fields = '__all__'
+
+class ReadContainerSerializer(serializers.ModelSerializer):
+    storage_id = ReadStorageSerializer()    #populates foreign key fields of storage
+    class Meta:
+        model = Container
         fields = '__all__'
 
 class UserSerializer(serializers.ModelSerializer):
