@@ -26,3 +26,32 @@ class Containers(generics.ListCreateAPIView):
             return Response({ 'container': container.data }, status=status.HTTP_201_CREATED)
         # If the data is not valid, return a response with the errors
         return Response(container.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+"""Container Details Class: GET, DELETE, UPDATE specific containers (by PK)"""
+class ContainerDetails(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes=(IsAuthenticated,)
+    def get(self, request, pk):
+        """Show request: Gets specific container from db and returns serialized data"""
+        container = get_object_or_404(Container, pk=pk)
+        data = ReadContainerSerializer(container).data
+        return Response({ 'container': data })
+    
+    def delete(self,request,pk):
+        """Delete request: deletes container from db then returns 204"""
+        container = get_object_or_404(Container,pk=pk)
+        container.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    def partial_update(self, request, pk):
+        """Update Request: updates container in db then returns 204"""
+        container = get_object_or_404(Container,pk=pk)
+
+        # Validate updates with serializer
+        data = ContainerSerializer(container, data=request.data['container'], partial=True)
+        if data.is_valid():
+            # Save & send a 204 no content
+            data.save()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        # If the data is not valid, return a response with the errors
+        return Response(data.errors, status=status.HTTP_400_BAD_REQUEST)
