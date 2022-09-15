@@ -8,7 +8,7 @@ from .views.storage_type_views import StorageTypes, StorageTypeDetails
 from .views.manufacturer_views import Manufacturers, ManufacturerDetails
 from .views.category_views import Categories, CategoryDetails
 from .views.container_views import Containers, ContainerDetails
-from .views.item_type_views import ItemTypes
+from .views.item_type_views import ItemTypes, ItemTypeDetails
 
 urlpatterns = [
   	# RESTful routing
@@ -23,12 +23,13 @@ urlpatterns = [
     path('storages', Storages.as_view(), name='storages'),
     path('storages/<int:pk>', StorageDetails.as_view(), name='storage_detail'),
     path('storage_types',StorageTypes.as_view(), name='storage_types'),
-    path('storage_types/<int:pk>',StorageTypeDetails.as_view(), name='storage_type_details'),
+    path('storage_types/<int:pk>',StorageTypeDetails.as_view(), name='storage_type_detail'),
     path('manufacturers', Manufacturers.as_view(), name='manufacturers'),
     path('manufacturers/<int:pk>', ManufacturerDetails.as_view(), name='manufacturer_detail'),
     path('categories', Categories.as_view(), name='categories'),
     path('categories/<int:pk>', CategoryDetails.as_view(), name='category_detail'),
     path('containers',Containers.as_view(), name='containers'),
-    path('containers/<int:pk>', ContainerDetails.as_view(), name='container_details'),
+    path('containers/<int:pk>', ContainerDetails.as_view(), name='container_detail'),
     path('item_types', ItemTypes.as_view(), name='item_types'),
+    path('item_types/<int:pk>', ItemTypeDetails.as_view(), name='item_type_details'),
 ]
