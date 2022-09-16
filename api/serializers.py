@@ -10,6 +10,7 @@ from .models.manufacturer import Manufacturer
 from .models.category import Category
 from .models.container import Container
 from .models.item_type import ItemType
+from .models.item import Item
 
 class MangoSerializer(serializers.ModelSerializer):
     class Meta:
@@ -65,6 +66,11 @@ class ItemTypeSerializer(serializers.ModelSerializer):
         model = ItemType
         fields = '__all__'
 
+class ItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Item
+        fields = '__all__'
+
 class UserSerializer(serializers.ModelSerializer):
     # This model serializer will be used for User creation
     # The login serializer also inherits from this serializer
@@ -103,3 +109,16 @@ class ChangePasswordSerializer(serializers.Serializer):
     model = get_user_model()
     old = serializers.CharField(required=True)
     new = serializers.CharField(required=True)
+
+
+class ReadItemSerializer(serializers.ModelSerializer):
+    item_type = ItemTypeSerializer()
+    category_id = CategorySerializer()
+    container_id = ReadContainerSerializer()
+    manufacturer_id = ManufacturerSerializer()
+    storage_id = StorageSerializer()
+    exp_id = ExperimentSerializer()
+    owner = UserSerializer()
+    class Meta:
+        model = Item
+        fields = '__all__'
