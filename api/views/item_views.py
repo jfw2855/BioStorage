@@ -50,4 +50,16 @@ class ContainerItemsDetails(generics.ListAPIView):
         data = ReadItemSerializer(items, many=True).data
         return Response({'container_items': data})
 
+"""User Items Class: INDEX all user items"""
+class UserItemsDetails(generics.ListAPIView):
+    permission_classes=(IsAuthenticated,)
+    serializer_class = ItemSerializer
+
+    def get(self, request):
+        """ Index request: indexes all user items"""
+        items = Item.objects.filter(owner=request.user.id)
+        print(request.user.id)
+        data = ReadItemSerializer(items, many=True).data
+        return Response({'user_items': data})
+
 
