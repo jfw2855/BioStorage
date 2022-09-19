@@ -28,4 +28,26 @@ class Items(generics.ListCreateAPIView):
         # If the data is not valid, return a response with the errors
         return Response(item.errors, status=status.HTTP_400_BAD_REQUEST)
 
+"""Storage Item Class: INDEX all storage items"""
+class StorageItemsDetails(generics.ListAPIView):
+    permission_classes=(IsAuthenticated,)
+    serializer_class = ItemSerializer
+
+    def get(self, request, pkf):
+        """ Index request: indexes all items within a storage"""
+        items = Item.objects.filter(storage_id=pkf)
+        data = ReadItemSerializer(items, many=True).data
+        return Response({'storage_items': data})
+
+"""Container Item Class: INDEX all container items"""
+class ContainerItemsDetails(generics.ListAPIView):
+    permission_classes=(IsAuthenticated,)
+    serializer_class = ItemSerializer
+
+    def get(self, request, pk):
+        """ Index request: indexes all items within a container"""
+        items = Item.objects.filter(container_id=pk)
+        data = ReadItemSerializer(items, many=True).data
+        return Response({'container_items': data})
+
 
