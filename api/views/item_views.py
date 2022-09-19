@@ -33,9 +33,9 @@ class StorageItemsDetails(generics.ListAPIView):
     permission_classes=(IsAuthenticated,)
     serializer_class = ItemSerializer
 
-    def get(self, request, pkf):
+    def get(self, request, pk):
         """ Index request: indexes all items within a storage"""
-        items = Item.objects.filter(storage_id=pkf)
+        items = Item.objects.filter(storage_id=pk)
         data = ReadItemSerializer(items, many=True).data
         return Response({'storage_items': data})
 
