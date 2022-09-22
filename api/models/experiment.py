@@ -17,7 +17,7 @@ class Experiment(models.Model):
     return f"Exp: {self.name}"
 
   def as_dict(self):
-    """Returns dictionary version of Mango models"""
+    """Returns dictionary version of Experiment models"""
     return {
         'id': self.id,
         'name': self.name,
