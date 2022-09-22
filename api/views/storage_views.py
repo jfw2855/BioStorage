@@ -20,11 +20,11 @@ class Storages(generics.ListCreateAPIView):
 
     def post(self, request):
         """Create request: creates a new storage and saves to db"""
-        # Serialize/create mango
+        # Serialize/create storage
         storage = StorageSerializer(data=request.data['storage'])
-        # If the mango data is valid according to our serializer...
+        # If the storage data is valid according to our serializer...
         if storage.is_valid():
-            # Save the created mango & send a response
+            # Save the created storage & send a response
             storage.save()
             return Response({ 'storage': storage.data }, status=status.HTTP_201_CREATED)
         # If the data is not valid, return a response with the errors
