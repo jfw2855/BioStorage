@@ -62,4 +62,35 @@ class UserItemsDetails(generics.ListAPIView):
         data = ReadItemSerializer(items, many=True).data
         return Response({'user_items': data})
 
+"""Item Details Class: GET, DELETE, UPDATE specific items (by PK)"""
+class ItemDetails (generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = (IsAuthenticated,)
+    
+    def get(self, request, pk):
+        """Show request: get data then return serialized data"""
+        item = get_object_or_404(Item, pk=pk)
+        data = ReadItemSerializer(item).data
+        return Response({'item':data})
+    
+    def delete(self,request, pk):
+        """Delete Request: deletes requester's item data from db then return 204"""
+        item = get_object_or_404(Item, pk=pk)
+        #checks if requester is owner (if owner exists) of item before deleting
+        if item.owner and request.user != item.owner:
+            raise PermissionDenied("Unauthorized, you do not own this item") 
+        item.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
+    def partial_update(self, request, pk):
+        """Update Request: updates the item then returns 204"""
+        item = get_object_or_404(Item, pk=pk)
+        # Checks if user is item owner (if owner exists)
+        if item.owner and request.user != item.owner:
+            raise PermissionDenied('Unauthorized, you do not own this item')
+        # Validate updates with serializer
+        data = ItemSerializer(item, data=request.data['item'], partial=True)
+        if data.is_valid():
+            data.save()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        # If the data is not valid, return a response with the errors
+        return Response(data.errors, status=status.HTTP_400_BAD_REQUEST)
