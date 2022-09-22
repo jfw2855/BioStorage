@@ -2,8 +2,15 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
 from .models.user import User
-from .models.mango import Mango
 from .models.experiment import Experiment
+from .models.category import Category
+from .models.container import Container
+from .models.item_type import ItemType
+from .models.item import Item
+from .models.manufacturer import Manufacturer
+from .models.storage_type import StorageType
+from .models.storage import Storage
+
 
 class UserAdmin(BaseUserAdmin):
     ordering = ['id']
@@ -40,5 +47,11 @@ class UserAdmin(BaseUserAdmin):
 # register the model and tell Django to use the above UserAdmin
 # class to format the pages:
 admin.site.register(User, UserAdmin)
-admin.site.register(Mango)
 admin.site.register(Experiment)
+admin.site.register(Category)
+admin.site.register(Container)
+admin.site.register(Item)
+admin.site.register(ItemType)
+admin.site.register(Storage)
+admin.site.register(StorageType)
+admin.site.register(Manufacturer)
