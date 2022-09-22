@@ -12,14 +12,14 @@ class Storages(generics.ListCreateAPIView):
     permission_classes=(IsAuthenticated,)
     serializer_class = StorageSerializer
     def get(self, request):
-        """Index request"""
+        """Index request: indexes all storages from db"""
         storages = Storage.objects
         # Run the data through the serializer
         data = ReadStorageSerializer(storages, many=True).data
         return Response({ 'storages': data })
 
     def post(self, request):
-        """Create request"""
+        """Create request: creates a new storage and saves to db"""
         # Serialize/create mango
         storage = StorageSerializer(data=request.data['storage'])
         # If the mango data is valid according to our serializer...
