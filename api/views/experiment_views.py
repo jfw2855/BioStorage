@@ -11,21 +11,21 @@ class Experiments(generics.ListCreateAPIView):
     permission_classes=(IsAuthenticated,)
     serializer_class = ExperimentSerializer
     def get(self, request):
-        """Index request"""
+        """Index request: Indexes all experiments"""
         exps = Experiment.objects.filter(owner=request.user.id)
         # Run the data through the serializer
         data = ExperimentSerializer(exps, many=True).data
         return Response({ 'experiments': data })
 
     def post(self, request):
-        """Create request"""
+        """Create request: Creates a new experiment"""
         # Add user to request data object
         request.data['experiment']['owner'] = request.user.id
-        # Serialize/create mango
+        # Serialize/create experiment
         experiment = ExperimentSerializer(data=request.data['experiment'])
-        # If the mango data is valid according to our serializer...
+        # If the experiment data is valid according to our serializer...
         if experiment.is_valid():
-            # Save the created mango & send a response
+            # Save the created experiment & send a response
             experiment.save()
             return Response({ 'experiment': experiment.data }, status=status.HTTP_201_CREATED)
         # If the data is not valid, return a response with the errors
