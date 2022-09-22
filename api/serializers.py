@@ -2,7 +2,6 @@ from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
 #model imports
-from .models.mango import Mango
 from .models.experiment import Experiment
 from .models.storage import Storage
 from .models.storage_type import StorageType
@@ -11,12 +10,6 @@ from .models.category import Category
 from .models.container import Container
 from .models.item_type import ItemType
 from .models.item import Item
-
-class MangoSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Mango
-        #https://www.django-rest-framework.org/api-guide/serializers/#modelserializer
-        fields = '__all__'
 
 class ExperimentSerializer(serializers.ModelSerializer):
     class Meta:
